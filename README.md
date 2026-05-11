@@ -1,61 +1,138 @@
-# Smart Inventory POS & Invoice System - Project Analysis
+# Smart Inventory POS & Invoice System
 
-## Features
+<p align="center">
+  <img src="media/home-01.png" width="100%" alt="Smart Inventory POS Hero" />
+</p>
 
-- User authentication with Admin and Cashier roles
-- Product catalog management with categories, subcategories, suppliers, barcode tracking, and stock levels
-- Purchase order and stock-in management with invoice numbers, purchase dates, and status tracking
-- POS sales workflow with sale items, invoice generation, discounts, VAT calculation, and payment tracking
-- Customer management with ledger history for debit, credit, and balance tracking
-- Supplier management and purchase item tracking
-- Audit logging for user actions, product changes, and sale events
-- Settings management for shop details, branding, tax, and SEO metadata
-- Low stock and inventory reporting via reorder thresholds
-- Barcode scanning support, import/export readiness, and PDF invoice/report generation
+A comprehensive Point of Sale and Inventory Management System with barcode tracking, audit logging, and automated reporting.
 
-## Installation
+---
 
-1. Clone the repository:
+## Table of Contents
+
+- [About the Project](#about-the-project)
+- [Project Overview](#project-overview)
+- [Key Features](#key-features)
+- [Tech Stack](#tech-stack)
+- [Dependencies](#dependencies)
+- [Installation & Setup](#installation--setup)
+- [Folder Structure](#folder-structure)
+- [Database Relation Analysis](#database-relation-analysis)
+- [System Design Analysis](#system-design-analysis)
+- [Traceability Matrix](#traceability-matrix)
+- [Visual Showcase](#visual-showcase)
+- [Contributions](#contributions)
+- [License](#license)
+- [Contact](#contact)
+
+---
+
+## About the Project 
+The **Smart Inventory POS & Invoice System** is a professional-grade solution designed to streamline retail operations. It integrates product cataloging, real-time inventory tracking, and automated sales processing into a single, cohesive platform. By leveraging barcode scanning and automated reporting, it helps businesses eliminate manual errors and gain real-time insights into their performance.
+
+---
+
+## Project Overview  
+This project is built using the **Laravel Repository + Service Layer** architectural pattern to ensure high maintainability and scalability. It provides a robust backend for handling complex financial transactions and stock movements, while the frontend offers a responsive interface for both administrators and cashiers.
+
+**Key Metrics & Objectives:**
+- **Accuracy:** Real-time stock updates and automated VAT/discount calculations.
+- **Accountability:** Full audit trail for every product change and sale transaction.
+- **Efficiency:** Fast POS checkout workflow with keyboard-wedge barcode scanner support.
+
+---
+
+## Key Features  
+- **User Authentication:** Secure login with role-based access control (Admin, Cashier).
+- **Inventory Management:** Full CRUD for products, categories, subcategories, and suppliers with barcode tracking.
+- **POS Workflow:** Seamless sales process with cart management, invoice generation, and multiple payment methods (Cash, Card, Mobile).
+- **Customer Ledger:** Financial tracking system for managing customer debts, credits, and balance history.
+- **Stock-In/Out Tracking:** Managed through purchase orders and stock adjustments with status tracking.
+- **Automated Reporting:** Daily/Weekly sales reports, top-product analysis, and low-stock alerts via reorder thresholds.
+- **Export/Import Tools:** Bulk product data handling via Excel and barcode label generation to PDF.
+
+---
+
+## Tech Stack  
+**Backend:** Laravel 12 · PHP 8.2+  
+**Frontend:** React.js · Tailwind CSS 4 · Vite  
+**Database:** MySQL · PostgreSQL · SQLite  
+**Tools:** Git · VS Code · Composer · PNPM · Docker (Sail)
+
+---
+
+## Dependencies  
+List of major libraries and frameworks used:
+
+```json
+{
+  "php": "^8.2",
+  "laravel/framework": "^12.0",
+  "barryvdh/laravel-dompdf": "*",
+  "maatwebsite/excel": "*",
+  "picqer/php-barcode-generator": "*",
+  "tailwindcss": "^4.0.0",
+  "vite": "^7.0.7"
+}
+```
+
+---
+
+## Installation & Setup  
+1. **Clone the repository:**
    ```bash
    git clone <repo-url> pos-management
    cd pos-management
    ```
-2. Install PHP dependencies:
+2. **Install PHP dependencies:**
    ```bash
    composer install
    ```
-3. Install frontend dependencies:
+3. **Install frontend dependencies:**
    ```bash
    pnpm install
    ```
-4. Copy the example environment file and configure your database:
+4. **Environment Configuration:**
    ```bash
    cp .env.example .env
-   ```
-5. Generate the application key:
-   ```bash
    php artisan key:generate
    ```
-6. Run database migrations:
+   *Configure your database credentials in the `.env` file.*
+5. **Database Setup:**
    ```bash
-   php artisan migrate
+   php artisan migrate --seed
    ```
-7. Seed the database:
-   ```bash
-   php artisan db:seed
-   ```
-8. Build frontend assets:
+6. **Build Frontend Assets:**
    ```bash
    pnpm run build
    ```
-9. Start the local development server:
+7. **Start the Server:**
    ```bash
    php artisan serve
    ```
 
-## 1. Database Relation Analysis (ERD Schema)
+---
 
-Based on the requirements, here is the proposed database structure with relationships.
+## Folder Structure  
+```text
+app/
+├── Http/
+│   ├── Controllers/    # Thin controllers
+│   ├── Requests/       # Form validations
+├── Models/             # Eloquent entities
+├── Repositories/       # Data abstraction layer
+├── Services/           # Business logic (SaleService, StockService, etc.)
+database/
+├── migrations/         # Database schema
+├── seeders/            # Initial roles and data
+resources/
+├── js/                 # React components and logic
+├── views/              # Blade templates
+```
+
+---
+
+## Database Relation Analysis
 
 ### Core Entities & Relationships
 
@@ -74,9 +151,7 @@ Based on the requirements, here is the proposed database structure with relation
 | **StockAdjustment**| Manual stock corrections | `BelongsTo` Product, `BelongsTo` User |
 | **AuditLog** | System activity tracking | `BelongsTo` User |
 
-### Detailed Table Definitions (SQL View)
-
-![Smart Inventory POS ER Diagram](file:///home/ubuntu/Desktop/code/pos/pos_er_diagram.png)
+### ER Diagram (Mermaid)
 
 ```mermaid
 erDiagram
@@ -100,170 +175,109 @@ erDiagram
         string username "unique"
         string password
         enum role "Admin, Cashier"
-        datetime created_at
-    }
-    CATEGORIES {
-        bigint id PK
-        string name
-        string description
-    }
-    SUPPLIERS {
-        bigint id PK
-        string name
-        string contact_person
-        string phone
-        string email
-        text address
     }
     PRODUCTS {
         bigint id PK
-        bigint category_id FK
-        bigint supplier_id FK
         string name
         string barcode "unique"
         decimal cost_price
         decimal selling_price
         integer stock_quantity
         integer reorder_level
-        boolean is_active
-    }
-    CUSTOMERS {
-        bigint id PK
-        string name
-        string phone "unique"
-        string email
-        text address
-    }
-    PURCHASES {
-        bigint id PK
-        bigint supplier_id FK
-        bigint user_id FK "Recorded By"
-        string purchase_number "unique"
-        decimal total_amount
-        enum status "Pending, Received"
-        date purchase_date
-    }
-    PURCHASE_ITEMS {
-        bigint id PK
-        bigint purchase_id FK
-        bigint product_id FK
-        integer quantity
-        decimal unit_cost
-        decimal total_cost
     }
     SALES {
         bigint id PK
-        bigint customer_id FK "nullable"
-        bigint user_id FK "Cashier"
         string invoice_number "unique"
         decimal total_amount
         decimal discount_amount
         decimal vat_amount
         decimal net_amount
         enum payment_method "Cash, Card, Mobile"
-        enum status "Paid, Partial, Due"
-        datetime sale_date
-    }
-    SALE_ITEMS {
-        bigint id PK
-        bigint sale_id FK
-        bigint product_id FK
-        integer quantity
-        decimal unit_price
-        decimal subtotal
-    }
-    CUSTOMER_LEDGER {
-        bigint id PK
-        bigint customer_id FK
-        bigint sale_id FK "nullable"
-        enum type "Debit, Credit"
-        decimal amount
-        decimal balance_after
-        string note
-    }
-    STOCK_ADJUSTMENTS {
-        bigint id PK
-        bigint product_id FK
-        bigint user_id FK
-        integer quantity_change "signed"
-        enum type "Addition, Subtraction, Damage, Return"
-        text reason
-    }
-    AUDIT_LOGS {
-        bigint id PK
-        bigint user_id FK
-        string event "e.g. product.created"
-        string auditable_type
-        bigint auditable_id
-        json old_values
-        json new_values
-        string ip_address
-    }
-    SETTINGS {
-        bigint id PK
-        string key "unique"
-        text value
     }
 ```
 
 ---
 
-## 2. System Design Analysis
+## System Design Analysis
 
-### Architectural Pattern: Laravel Repository + Service Layer
-To ensure the system is scalable and maintainable (as per non-functional requirements), I recommend the following architecture:
-
-1.  **Models (Eloquent)**: Represent the database tables and define relationships (e.g., `Product hasMany SaleItems`).
-2.  **Repositories**: Abstraction layer for data fetching. For example, `ProductRepository` handles finding products by barcode or category.
-3.  **Service Layer**: Where the "Business Logic" lives.
-    *   `SaleService`: Handles the complex logic of creating a sale, updating stock, and updating customer ledger in a single **Transaction**.
-    *   `StockService`: Manages inventory levels and reorder alerts.
-    *   `InvoiceService`: Generates PDF invoices using a library like `barryvdh/laravel-dompdf`.
-4.  **Controllers**: Keep them thin. They should only receive requests and call the appropriate Service.
-5.  **Audit Observers**: Use Laravel Observers to automatically record `AuditLog` entries whenever a `Product` or `Sale` is updated.
+### Architectural Pattern: Repository + Service Layer
+1.  **Models (Eloquent)**: Represent the database tables and define relationships.
+2.  **Repositories**: Abstraction layer for data fetching (e.g., finding products by barcode).
+3.  **Service Layer**: Handles "Business Logic" (e.g., `SaleService` manages transactions, updates stock, and customer ledger in a single DB transaction).
+4.  **Audit Observers**: Automatically record `AuditLog` entries whenever sensitive data (Product/Sale) is modified.
 
 ### Key Module Interactions
-
-*   **POS Module**: 
-    1. Cashier scans barcode (handled by **Barcode Management Module**).
-    2. Frontend (React) fetches product details via API.
-    3. Sale is finalized -> **SaleService** updates stock quantity -> **CustomerLedger** is updated if credit -> **InvoiceService** returns PDF link.
-*   **Inventory Module**:
-    1. Stock falls below `reorder_level`.
-    2. **StockService** triggers a system notification or marks as "Low Stock" for the **Reporting Module**.
+- **POS Module**: Cashier scans barcode -> Frontend fetches details -> Sale finalized -> `SaleService` updates stock -> `CustomerLedger` updated -> `InvoiceService` generates PDF.
+- **Inventory Module**: Stock falls below `reorder_level` -> System triggers "Low Stock" alert for reporting.
 
 ---
 
-## 3. Implementation Recommendations (Add-ons)
+## Traceability Matrix
 
-1.  **Barcode Scanning**: Use a keyboard-wedge scanner. Implement a global listener in the React frontend to capture input into the POS search field automatically.
-2.  **Excel Import**: Use `maatwebsite/excel` for Laravel to handle product bulk uploads.
-3.  **PDF Generation**: Use Tailwind CSS for the invoice styling to ensure the printed version looks premium and modern.
-
----
-
-## 4. Requirement Mapping (Traceability Matrix)
-
-This section confirms how each of your specific requirements is addressed in the technical design.
-
-### Must-have features
-| Feature | Implementation Detail (Database / System) |
+| Feature | Implementation Detail |
 | :--- | :--- |
-| **Login + roles** | `USERS` table with `role` enum (Admin, Cashier). |
+| **Login + Roles** | `USERS` table with role enums; Middleware for access control. |
 | **Products (CRUD)** | `PRODUCTS`, `CATEGORIES`, `SUPPLIERS` tables + `ProductController`. |
-| **Stock in/out** | `PURCHASES` (Stock In), `SALE_ITEMS` (Stock Out), `STOCK_ADJUSTMENTS`. |
-| **POS sales screen** | `SALES` (Invoice tracking), `SALE_ITEMS` (Cart), fast search via barcode. |
-| **VAT & Discounts** | `SALES.discount_amount`, `SALES.vat_amount` fields (Net calculation). |
-| **Invoice PDF / Print** | `InvoiceService` using Laravel DOMPDF; `sales.invoice_number`. |
-| **Customer ledger** | `CUSTOMERS` table + `CUSTOMER_LEDGER` (Debit/Credit history). |
-| **Reports** | `ReportController` querying `SALES` (Daily/Weekly) and `PRODUCTS` (Top products, Low stock). |
-| **Audit log** | `AUDIT_LOGS` table with `user_id` to track who changed stock or sales. |
+| **Stock In/Out** | `PURCHASES` (In), `SALE_ITEMS` (Out), `STOCK_ADJUSTMENTS`. |
+| **POS Interface** | Fast search via barcode; `SALES` and `SALE_ITEMS` tracking. |
+| **VAT & Discounts** | Financial fields in `SALES` table for precise net calculation. |
+| **Invoice PDF** | `InvoiceService` using Laravel DOMPDF. |
+| **Customer Ledger** | `CUSTOMERS` table + `CUSTOMER_LEDGER` debit/credit history. |
+| **Audit Log** | `AUDIT_LOGS` table with user-to-action mapping. |
 
-### Add-ons
-| Feature | Implementation Detail (Database / System) |
-| :--- | :--- |
-| **Barcode scanner** | `PRODUCTS.barcode` field; JavaScript global listener for keyboard-wedge scanners. |
-| **Barcode labels PDF**| `BarcodeService` to generate standard labels from product list to PDF. |
-| **Excel Import/Export**| `Maatwebsite/Excel` for both importing and exporting `Product` and `Stock` records. |
+---
 
+## Visual Showcase
 
+### 🏠 Home & Landing
+<p align="center">
+  <img src="media/home-01.png" height="300" width="50%" alt="Home Page 1" />
+  <img src="media/home-02.png" height="300" width="50%" alt="Home Page 2" />
+</p>
+
+### 🔐 Authentication
+<p align="center">
+  <img src="media/login.png" height="300" alt="Login Page" />
+</p>
+
+### 🛠️ Admin Management
+<p align="center">
+  <img src="media/admin-dashboard.png" height="300" alt="Admin Dashboard" />
+  <img src="media/admin-product.png" height="300" alt="Product Management" />
+</p>
+<p align="center">
+  <img src="media/admin-customer.png" height="300" alt="Customer Management" />
+  <img src="media/admin-barcode.png" height="300" alt="Barcode Generator" />
+</p>
+<p align="center">
+  <img src="media/admin-inventory-report.png" height="300" alt="Inventory Report" />
+  <img src="media/admin-auditlog.png" height="300" alt="Audit Logs" />
+</p>
+
+### 🛒 Cashier & POS Terminal
+<p align="center">
+  <img src="media/cashier-dashboard.png" height="300" alt="Cashier Dashboard" />
+  <img src="media/cashier-pos-terminal.png" height="300" alt="POS Terminal" />
+</p>
+
+---
+
+## Contributions
+Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
+
+1. Fork the Project
+2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the Branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+---
+
+## License
+Distributed under the MIT License. See `LICENSE` for more information.
+
+---
+
+## Contact
+**Project Maintainer:** Md Rafiul Islam  
+**Project Link:** [https://github.com/Rafiul29/point-of-sale.git](https://github.com/Rafiul29/point-of-sale.git)
