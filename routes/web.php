@@ -18,13 +18,13 @@ use App\Models\Setting;
 use Illuminate\Support\Facades\Route;
 
 // Landing Page
-// Route::get('/', function () {
-//     $settings = Setting::pluck('value', 'key');
-//     return view('landing', compact('settings'));
-// })->name('landing');
+Route::get('/', function () {
+    $settings = Setting::pluck('value', 'key');
+    return view('landing', compact('settings'));
+})->name('landing');
 
-Route::get('/', [LoginController::class, 'showLoginForm'])->name('login');
-Route::post('/', [LoginController::class, 'login']);
+// Route::get('/', [LoginController::class, 'showLoginForm'])->name('login');
+// Route::post('/', [LoginController::class, 'login']);
 
 // Auth Routes
 Route::middleware('guest')->group(function () {

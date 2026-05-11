@@ -1,5 +1,58 @@
 # Smart Inventory POS & Invoice System - Project Analysis
 
+## Features
+
+- User authentication with Admin and Cashier roles
+- Product catalog management with categories, subcategories, suppliers, barcode tracking, and stock levels
+- Purchase order and stock-in management with invoice numbers, purchase dates, and status tracking
+- POS sales workflow with sale items, invoice generation, discounts, VAT calculation, and payment tracking
+- Customer management with ledger history for debit, credit, and balance tracking
+- Supplier management and purchase item tracking
+- Audit logging for user actions, product changes, and sale events
+- Settings management for shop details, branding, tax, and SEO metadata
+- Low stock and inventory reporting via reorder thresholds
+- Barcode scanning support, import/export readiness, and PDF invoice/report generation
+
+## Installation
+
+1. Clone the repository:
+   ```bash
+   git clone <repo-url> pos-management
+   cd pos-management
+   ```
+2. Install PHP dependencies:
+   ```bash
+   composer install
+   ```
+3. Install frontend dependencies:
+   ```bash
+   pnpm install
+   ```
+4. Copy the example environment file and configure your database:
+   ```bash
+   cp .env.example .env
+   ```
+5. Generate the application key:
+   ```bash
+   php artisan key:generate
+   ```
+6. Run database migrations:
+   ```bash
+   php artisan migrate
+   ```
+7. Seed the database:
+   ```bash
+   php artisan db:seed
+   ```
+8. Build frontend assets:
+   ```bash
+   pnpm run build
+   ```
+9. Start the local development server:
+   ```bash
+   php artisan serve
+   ```
+
 ## 1. Database Relation Analysis (ERD Schema)
 
 Based on the requirements, here is the proposed database structure with relationships.
@@ -214,26 +267,3 @@ This section confirms how each of your specific requirements is addressed in the
 | **Excel Import/Export**| `Maatwebsite/Excel` for both importing and exporting `Product` and `Stock` records. |
 
 
-
-
-Changes
-1. Doller sing change to bdt taka hole project 
-2. admin don't acess pos page
-3. cachier when sell product customtomer informatin get name,email,phone,address
-4. categories subcategory needed (pic optional)
-5. product model image filed use
-6. /suppliers pages use bangladeshi frienly text use 
-7. create and update product image field  and category and subcategory id added
-8. /products page stock and stock sync option exclude total sku change (total Product)
-9. purchases/create page stock update  status wise (Pending, Received, Cancelled)
-10. /reports/sales page  word use friendly text
-11. /reports/inventory page filter use start and end date  
-12. dashboard header fixed navbar use  
-13. /audit-logs page filter option model App%5CModels%5CProduc opion exlcude
-
-
-Cachier Dashboard chnages
-1. terminal pos search product search name category sku barcode
-2. terminal pos sell product  customer search (name phone email address)
-
-demeshounajahan@gmail.com
