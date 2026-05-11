@@ -37,7 +37,8 @@
                 <div class="flex items-start justify-between mb-4">
                     <div
                         class="h-12 w-12 flex items-center justify-center rounded-2xl bg-emerald-50 text-emerald-600 transition-transform group-hover:scale-110">
-                        <i class="fas fa-dollar-sign text-xl"></i>
+                        {{-- <i class="fas fa-dollar-sign text-xl"></i> --}}
+                         {{ $settings['currency_symbol'] ?? '$' }}
                     </div>
                     <div class="text-right">
                         <p class="text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">Today's Revenue</p>
