@@ -59,9 +59,9 @@
                                         class="bg-indigo-50 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4">
                                         <i class="fas fa-shopping-basket text-3xl text-indigo-200"></i>
                                     </div>
-                                    <p class="text-base font-bold text-slate-400">Terminal Standby</p>
-                                    <p class="text-[11px] font-medium opacity-60 uppercase tracking-widest mt-1">Scan or
-                                        search products to begin</p>
+                                    <p class="text-base font-bold text-slate-400">Your Cart is Empty</p>
+                                    <p class="text-[11px] font-medium opacity-60 uppercase tracking-widest mt-1">Add
+                                        products to begin your order</p>
                                 </td>
                             </tr>
                         </tbody>
@@ -78,7 +78,7 @@
                     <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400">Customer Details</h3>
                     <button type="button" id="search-customer-btn"
                         class="h-8 px-3 rounded-lg bg-indigo-50 text-indigo-600 text-[10px] font-bold uppercase tracking-wider hover:bg-indigo-600 hover:text-white transition-all flex items-center gap-1.5 border border-indigo-100">
-                        <i class="fas fa-search-plus"></i> Search Registry
+                        <i class="fas fa-search-plus"></i> Search Registered Customers
                     </button>
                 </div>
 
@@ -92,7 +92,7 @@
                                 <h4 class="text-sm font-bold text-slate-800 leading-none" id="display-customer-name">Walk-in
                                     Customer</h4>
                                 <p class="text-[10px] text-indigo-500 font-bold uppercase tracking-wider mt-1.5"
-                                    id="display-customer-phone">Anonymous Member</p>
+                                    id="display-customer-phone">Anonymous Customer</p>
                             </div>
                         </div>
                         <button type="button" id="clear-customer" class="text-slate-400 hover:text-rose-500 transition-all">
@@ -106,21 +106,17 @@
                         <input type="text" id="customer-name"
                             class="w-full border border-slate-200 bg-slate-50 py-3 px-4 text-xs font-semibold rounded-xl focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 placeholder:text-slate-400 transition-all"
                             placeholder="Full Name *">
-                        <span id="customer-name-error"
-                            class="text-[10px] text-rose-500 font-bold hidden px-1 mt-1">Identitiy is required per node
-                            protocol.</span>
+                        <span id="customer-name-error" class="text-[10px] text-rose-500 font-bold hidden px-1 mt-1">Customer
+                            name is required for order processing.</span>
                     </div>
                     <div class="grid grid-cols-2 gap-3">
                         <input type="text" id="customer-phone"
                             class="w-full border border-slate-200 bg-slate-50 py-3 px-4 text-xs font-semibold rounded-xl focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 placeholder:text-slate-400 transition-all"
-                            placeholder="Phone Index">
+                            placeholder="Phone Number">
                         <input type="email" id="customer-email"
                             class="w-full border border-slate-200 bg-slate-50 py-3 px-4 text-xs font-semibold rounded-xl focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 placeholder:text-slate-400 transition-all"
-                            placeholder="Mail Node">
+                            placeholder="Email Address">
                     </div>
-                    <textarea id="customer-address" rows="2"
-                        class="w-full border border-slate-200 bg-slate-50 py-3 px-4 text-xs font-semibold rounded-xl focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 placeholder:text-slate-400 resize-none transition-all"
-                        placeholder="Billing Geography"></textarea>
                     <input type="hidden" id="customer-id" value="">
                 </div>
             </div>
@@ -131,19 +127,19 @@
                 <div class="relative z-10 space-y-4">
                     <div
                         class="flex justify-between items-center text-[11px] font-bold text-slate-400 uppercase tracking-widest">
-                        <span>Terminal Subtotal</span>
-                        <span id="summary-subtotal" class="text-white">{{ $currency }}0.00</span>
+                        <span>Cart Subtotal</span>
+                        <span id="summary-subtotal" class="text-white">{{ $currency }}</span>
                     </div>
                     <div
                         class="flex justify-between items-center text-[11px] font-bold text-indigo-300 uppercase tracking-widest">
-                        <span>Tax Contribution ({{ $tax_rate }}%)</span>
-                        <span id="summary-tax" class="text-indigo-200">{{ $currency }}0.00</span>
+                        <span>Estimated Tax ({{ $tax_rate }}%)</span>
+                        <span id="summary-tax" class="text-indigo-200">{{ $currency }}</span>
                     </div>
                     <div class="pt-4 border-t border-slate-700">
                         <div class="flex justify-between items-center">
-                            <span class="text-xs font-bold text-slate-400 uppercase tracking-widest">Aggregate Sum</span>
+                            <span class="text-xs font-bold text-slate-400 uppercase tracking-widest">Order Total</span>
                             <span id="summary-total"
-                                class="text-3xl font-black text-white tracking-tighter">{{ $currency }}0.00</span>
+                                class="text-3xl font-black text-white tracking-tighter">{{ $currency }}</span>
                         </div>
                     </div>
                 </div>
@@ -151,14 +147,14 @@
                 <div class="mt-8 space-y-3 relative z-10">
                     <button type="button" id="finalize-btn"
                         class="w-full rounded-2xl py-4 text-base font-bold text-white flex items-center justify-center gap-3
-                                                                                   bg-indigo-600 shadow-lg shadow-indigo-900/50 hover:bg-indigo-500 active:scale-[0.98] transition-all disabled:opacity-30 disabled:grayscale"
+                                                                                                                   bg-indigo-600 shadow-lg shadow-indigo-900/50 hover:bg-indigo-500 active:scale-[0.98] transition-all disabled:opacity-30 disabled:grayscale"
                         disabled>
-                        <span>Finalize Settlement</span>
-                        <i class="fas fa-check-circle opacity-50"></i>
+                        <span>Proceed to Checkout</span>
+                        <i class="fas fa-shopping-cart opacity-50"></i>
                     </button>
                     <button type="button" id="clear-cart-btn"
                         class="w-full py-2 text-[10px] font-bold uppercase tracking-widest text-slate-500 hover:text-rose-400 flex items-center justify-center gap-2 transition-colors">
-                        <i class="fas fa-undo-alt text-xs"></i> Purge Terminal
+                        <i class="fas fa-trash-alt text-xs"></i> Empty Cart
                     </button>
                 </div>
 
@@ -222,9 +218,9 @@
                         <i class="fas fa-users-viewfinder"></i>
                     </div>
                     <div>
-                        <h3 class="text-lg font-bold text-slate-800 leading-none">Registry Lookup</h3>
-                        <p class="text-[10px] text-slate-400 font-bold uppercase tracking-wider mt-1.5">Search identities in
-                            the master node</p>
+                        <h3 class="text-lg font-bold text-slate-800 leading-none">Customer Search</h3>
+                        <p class="text-[10px] text-slate-400 font-bold uppercase tracking-wider mt-1.5">Find existing
+                            customers in our database</p>
                     </div>
                 </div>
                 <button type="button"
@@ -239,7 +235,7 @@
                         class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-slate-300 group-focus-within:text-emerald-500 transition-colors"></i>
                     <input type="text" id="modal-customer-input"
                         class="w-full border border-slate-200 bg-slate-50 py-3 pl-11 pr-5 text-sm font-semibold rounded-xl focus:ring-4 focus:ring-emerald-500/5 focus:border-emerald-500 transition-all"
-                        placeholder="Match name, phone, or mail index...">
+                        placeholder="Search by name, phone, or email...">
                 </div>
             </div>
 
@@ -261,9 +257,9 @@
                 <div class="p-8 flex-1 overflow-y-auto custom-scrollbar border-r border-slate-100">
                     <div class="flex justify-between items-start mb-8">
                         <div>
-                            <h2 class="text-3xl font-black text-slate-800 tracking-tight">Settlement</h2>
-                            <p class="text-[11px] font-bold text-slate-400 uppercase tracking-widest mt-1">Reconcile
-                                transaction protocol.</p>
+                            <h2 class="text-3xl font-black text-slate-800 tracking-tight">Order Checkout</h2>
+                            <p class="text-[11px] font-bold text-slate-400 uppercase tracking-widest mt-1">Review and
+                                complete your purchase.</p>
                         </div>
                         <button id="close-finalize-btn"
                             class="h-10 w-10 flex items-center justify-center rounded-xl bg-slate-50 text-slate-400 hover:text-rose-500 transition-all">
@@ -274,14 +270,14 @@
                     <div class="space-y-8">
                         <div>
                             <label class="text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-4 block">Payment
-                                Methodology</label>
+                                Method</label>
                             <div class="grid grid-cols-3 gap-3">
                                 <label class="cursor-pointer">
                                     <input type="radio" name="payment_method" value="Cash" class="peer sr-only" checked>
                                     <div
                                         class="flex flex-col items-center gap-2 p-4 rounded-2xl border-2 border-slate-100 hover:border-indigo-100 transition-all peer-checked:border-indigo-600 peer-checked:bg-indigo-50 peer-checked:text-indigo-600 text-slate-400">
                                         <i class="fas fa-money-bill-wave text-xl"></i>
-                                        <span class="text-[10px] font-bold uppercase tracking-wider">Cash Node</span>
+                                        <span class="text-[10px] font-bold uppercase tracking-wider">Cash</span>
                                     </div>
                                 </label>
                                 <label class="cursor-pointer">
@@ -289,7 +285,7 @@
                                     <div
                                         class="flex flex-col items-center gap-2 p-4 rounded-2xl border-2 border-slate-100 hover:border-indigo-100 transition-all peer-checked:border-indigo-600 peer-checked:bg-indigo-50 peer-checked:text-indigo-600 text-slate-400">
                                         <i class="fas fa-credit-card text-xl"></i>
-                                        <span class="text-[10px] font-bold uppercase tracking-wider">Card Node</span>
+                                        <span class="text-[10px] font-bold uppercase tracking-wider">Card</span>
                                     </div>
                                 </label>
                                 <label class="cursor-pointer">
@@ -297,15 +293,15 @@
                                     <div
                                         class="flex flex-col items-center gap-2 p-4 rounded-2xl border-2 border-slate-100 hover:border-indigo-100 transition-all peer-checked:border-indigo-600 peer-checked:bg-indigo-50 peer-checked:text-indigo-600 text-slate-400">
                                         <i class="fas fa-landmark text-xl"></i>
-                                        <span class="text-[10px] font-bold uppercase tracking-wider">Credit Node</span>
+                                        <span class="text-[10px] font-bold uppercase tracking-wider">Store Credit</span>
                                     </div>
                                 </label>
                             </div>
                         </div>
 
                         <div class="space-y-4">
-                            <label class="text-[10px] font-bold uppercase tracking-widest text-slate-400 block">Settlement
-                                Value</label>
+                            <label class="text-[10px] font-bold uppercase tracking-widest text-slate-400 block">Amount
+                                Paid</label>
                             <div class="relative">
                                 <span
                                     class="absolute left-6 top-1/2 -translate-y-1/2 text-2xl font-black text-slate-300 group-focus-within:text-indigo-600 transition-colors">{{ $currency }}</span>
@@ -318,14 +314,14 @@
                                 class="bg-slate-900 rounded-3xl p-6 text-white overflow-hidden shadow-xl border border-slate-700">
                                 <div class="flex justify-between items-center">
                                     <div>
-                                        <p class="text-[9px] font-bold uppercase tracking-widest text-slate-500">Node
+                                        <p class="text-[9px] font-bold uppercase tracking-widest text-slate-500">Order
                                             Balance</p>
                                         <h3 id="due-amount-header"
                                             class="text-xs font-bold text-slate-400 uppercase tracking-widest">
-                                            Reconciliation</h3>
+                                            Payment Status</h3>
                                     </div>
                                     <span id="due-amount-display"
-                                        class="text-3xl font-black text-emerald-400 tracking-tighter">{{ $currency }}0.00</span>
+                                        class="text-3xl font-black text-emerald-400 tracking-tighter">{{ $currency }}</span>
                                 </div>
                             </div>
                         </div>
@@ -337,7 +333,7 @@
                     <div>
                         <div
                             class="flex items-center gap-2 mb-8 bg-white/10 w-fit px-4 py-1.5 rounded-full border border-white/10">
-                            <span class="text-[9px] font-bold uppercase tracking-widest">Active Node Summary</span>
+                            <span class="text-[9px] font-bold uppercase tracking-widest">Order Summary</span>
                         </div>
 
                         <div id="modal-items-list"
@@ -349,17 +345,17 @@
                             <div
                                 class="flex justify-between items-center text-[10px] font-bold uppercase tracking-widest opacity-60">
                                 <span>Subtotal</span>
-                                <span id="modal-subtotal-display">{{ $currency }}0.00</span>
+                                <span id="modal-subtotal-display">{{ $currency }}</span>
                             </div>
                             <div
                                 class="flex justify-between items-center text-[10px] font-bold uppercase tracking-widest opacity-60">
-                                <span>Tax Index</span>
-                                <span id="modal-tax-display">{{ $currency }}0.00</span>
+                                <span>Tax Total</span>
+                                <span id="modal-tax-display">{{ $currency }}</span>
                             </div>
                             <div class="pt-4 border-t border-white/10">
-                                <p class="text-[9px] font-bold uppercase tracking-widest opacity-40 mb-1">Settlement Sum</p>
+                                <p class="text-[9px] font-bold uppercase tracking-widest opacity-40 mb-1">Total Amount</p>
                                 <h1 id="modal-total-display" class="text-5xl font-black tracking-tighter text-white">
-                                    {{ $currency }}0.00
+                                    {{ $currency }}
                                 </h1>
                             </div>
                         </div>
@@ -368,8 +364,8 @@
                     <div class="pt-8">
                         <button id="confirm-sale-btn"
                             class="w-full py-5 rounded-2xl text-xl font-bold text-indigo-600 bg-white shadow-xl hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center justify-center gap-3">
-                            <span>Execute Committal</span>
-                            <i class="fas fa-print opacity-30"></i>
+                            <span>Place Order</span>
+                            <i class="fas fa-shopping-bag opacity-30"></i>
                         </button>
                     </div>
                 </div>
@@ -509,24 +505,24 @@
                     let catName = p.category ? p.category.name : 'Unknown Node';
                     let isOut = p.stock_quantity <= 0;
                     html += `
-                                                            <div class="product-card bg-white border border-slate-200 p-4 rounded-xl cursor-pointer group shadow-sm hover:border-indigo-500 hover:shadow-lg transition-all ${isOut ? 'opacity-40 grayscale pointer-events-none' : ''}" data-product='${JSON.stringify(p).replace(/'/g, "&apos;")}'>
-                                                                <div class="flex  gap-4">
-                                                                    <div class="w-14 h-14 rounded-xl bg-slate-50 border border-slate-100 flex items-center overflow-hidden shrink-0 group-hover:bg-white transition-colors">
-                                                                        ${p.image ? `<img src="/storage/${p.image}" class="w-full h-full object-cover">` : '<i class="fas fa-cube text-slate-300"></i>'}
-                                                                    </div>
-                                                                    <div class="flex-1 min-w-0">
-                                                                    <div class="flex justify-between items-center"  > 
-                                                                        <h4 class="text-xs font-bold text-slate-800 truncate">${p.name}</h4>
-                                                                        <p class="text-[9px] font-bold text-indigo-500 uppercase tracking-wider mt-1">${catName}</p>
-                                                                    </div>
-                                                                        <div class="flex justify-between items-baseline mt-2">
-                                                                            <span class="text-sm font-black text-slate-900">${CURRENCY}${parseFloat(p.selling_price).toFixed(2)}</span>
-                                                                            <span class="text-[9px] font-bold px-2 py-0.5 rounded-full ${p.stock_quantity < 10 ? 'bg-rose-50 text-rose-600' : 'bg-emerald-50 text-emerald-600'}">Qty: ${p.stock_quantity}</span>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        `;
+                                                                                            <div class="product-card bg-white border border-slate-200 p-4 rounded-xl cursor-pointer group shadow-sm hover:border-indigo-500 hover:shadow-lg transition-all ${isOut ? 'opacity-40 grayscale pointer-events-none' : ''}" data-product='${JSON.stringify(p).replace(/'/g, "&apos;")}'>
+                                                                                                <div class="flex  gap-4">
+                                                                                                    <div class="w-14 h-14 rounded-xl bg-slate-50 border border-slate-100 flex items-center overflow-hidden shrink-0 group-hover:bg-white transition-colors">
+                                                                                                        ${p.image ? `<img src="/storage/${p.image}" class="w-full h-full object-cover">` : '<i class="fas fa-cube text-slate-300"></i>'}
+                                                                                                    </div>
+                                                                                                    <div class="flex-1 min-w-0">
+                                                                                                    <div class="flex justify-between items-center"  > 
+                                                                                                        <h4 class="text-xs font-bold text-slate-800 truncate">${p.name}</h4>
+                                                                                                        <p class="text-[9px] font-bold text-indigo-500 uppercase tracking-wider mt-1">${catName}</p>
+                                                                                                    </div>
+                                                                                                        <div class="flex justify-between items-baseline mt-2">
+                                                                                                            <span class="text-sm font-black text-slate-900">${CURRENCY}${parseFloat(p.selling_price).toFixed(2)}</span>
+                                                                                                            <span class="text-[9px] font-bold px-2 py-0.5 rounded-full ${p.stock_quantity < 10 ? 'bg-rose-50 text-rose-600' : 'bg-emerald-50 text-emerald-600'}">Qty: ${p.stock_quantity}</span>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        `;
                 });
                 $('#product-results').html(html);
             }
@@ -557,17 +553,17 @@
                 let html = customers.length === 0 ? '<div class="text-center py-8 text-slate-400 font-bold uppercase tracking-widest text-[10px]">Registry Empty</div>' : '';
                 customers.forEach(c => {
                     html += `
-                                                            <div class="select-customer-row flex items-center justify-between p-3 rounded-xl bg-white border border-slate-100 hover:bg-slate-50 hover:border-indigo-200 transition-all cursor-pointer group" data-customer='${JSON.stringify(c).replace(/'/g, "&apos;")}'>
-                                                                <div class="flex items-center gap-3">
-                                                                    <div class="w-8 h-8 rounded-lg bg-emerald-600 text-white flex items-center justify-center font-bold text-xs shadow-sm">${c.name.charAt(0)}</div>
-                                                                    <div class="min-w-0">
-                                                                        <h4 class="text-xs font-bold text-slate-800 truncate">${c.name}</h4>
-                                                                        <p class="text-[9px] text-slate-400 font-bold mt-0.5">${c.phone || 'No Phone Node'} • ${c.email || 'No Mail Node'}</p>
-                                                                    </div>
-                                                                </div>
-                                                                <i class="fas fa-arrow-right-long text-slate-200 group-hover:text-emerald-500 transition-all text-xs"></i>
-                                                            </div>
-                                                        `;
+                                                                                            <div class="select-customer-row flex items-center justify-between p-3 rounded-xl bg-white border border-slate-100 hover:bg-slate-50 hover:border-indigo-200 transition-all cursor-pointer group" data-customer='${JSON.stringify(c).replace(/'/g, "&apos;")}'>
+                                                                                                <div class="flex items-center gap-3">
+                                                                                                    <div class="w-8 h-8 rounded-lg bg-emerald-600 text-white flex items-center justify-center font-bold text-xs shadow-sm">${c.name.charAt(0)}</div>
+                                                                                                    <div class="min-w-0">
+                                                                                                        <h4 class="text-xs font-bold text-slate-800 truncate">${c.name}</h4>
+                                                                                                        <p class="text-[9px] text-slate-400 font-bold mt-0.5">${c.phone || 'No Phone Number'} • ${c.email || 'No Email Address'}</p>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                                <i class="fas fa-arrow-right-long text-slate-200 group-hover:text-emerald-500 transition-all text-xs"></i>
+                                                                                            </div>
+                                                                                        `;
                 });
                 $('#customer-results').html(html);
             }
@@ -585,7 +581,7 @@
                 $('#customer-email').val(c.email || '');
                 $('#customer-address').val(c.address || '');
                 $('#display-customer-name').text(c.name);
-                $('#display-customer-phone').text(c.phone || 'Anonymous Registry');
+                $('#display-customer-phone').text(c.phone || 'Anonymous Customer');
                 $('#customer-avatar-initial').text(c.name.charAt(0));
                 $('#selected-customer-display').removeClass('hidden');
                 $('#customer-form').hide();
@@ -628,25 +624,32 @@
                 cart.forEach((item, index) => {
                     let lineTotal = item.price * item.quantity; subtotal += lineTotal;
                     $tbody.append(`
-                                                            <tr class="hover:bg-slate-50/50 transition-all">
-                                                                <td class="px-6 py-4">
-                                                                    <div class="flex items-center gap-4">
-                                                                        <div class="h-10 w-10 flex items-center justify-center rounded-xl bg-slate-50 text-slate-400 shrink-0 border border-slate-100"><i class="fas fa-cube text-xs"></i></div>
-                                                                        <div class="min-w-0"><p class="text-xs font-bold text-slate-800 leading-none truncate">${item.name}</p><p class="text-[9px] font-bold text-slate-400 mt-1.5 uppercase tracking-widest">${item.barcode}</p></div>
+                                                        <tr class="hover:bg-slate-50/50 transition-all">
+                                                            <td class="px-6 py-4">
+                                                                <div class="flex items-center gap-4">
+                                                                    <div class="h-10 w-10 flex items-center justify-center rounded-xl bg-slate-50 text-slate-400 shrink-0 border border-slate-100"><i class="fas fa-cube text-xs"></i></div>
+                                                                    <div class="min-w-0">
+                                                                        <p class="text-xs font-bold text-slate-800 leading-none truncate">${item.name}</p>
+                                                                        <p class="text-[9px] font-bold text-slate-400 mt-1.5 uppercase tracking-widest">${item.barcode}</p>
                                                                     </div>
-                                                                </td>
-                                                                <td class="px-4 py-4 text-xs font-bold text-slate-600">${CURRENCY}${item.price.toFixed(2)}</td>
-                                                                <td class="px-4 py-4 text-center">
-                                                                    <div class="flex items-center justify-center gap-2 bg-white border border-slate-200 rounded-xl p-1 w-fit mx-auto shadow-sm">
-                                                                        <button class="h-7 w-7 flex items-center justify-center rounded-lg hover:bg-slate-100 text-slate-400 hover:text-indigo-600 transition-all decrease-qty" data-index="${index}"><i class="fas fa-minus text-[8px]"></i></button>
-                                                                        <span class="w-6 text-center text-xs font-bold text-slate-800">${item.quantity}</span>
-                                                                        <button class="h-7 w-7 flex items-center justify-center rounded-lg hover:bg-slate-100 text-slate-400 hover:text-indigo-600 transition-all increase-qty" data-index="${index}"><i class="fas fa-plus text-[8px]"></i></button>
-                                                                    </div>
-                                                                </td>
-                                                                <td class="px-4 py-4 text-xs font-black text-indigo-600">${CURRENCY}${lineTotal.toFixed(2)}</td>
-                                                                <td class="px-6 py-4 text-right"><button class="h-9 w-9 flex items-center justify-center rounded-lg text-slate-300 hover:text-rose-500 hover:bg-rose-50 transition-all remove-item" data-index="${index}"><i class="fas fa-trash-can text-xs"></i></button></td>
-                                                            </tr>
-                                                        `);
+                                                                </div>
+                                                            </td>
+                                                            <td class="px-4 py-4 text-xs font-bold text-slate-600">${CURRENCY}${item.price.toFixed(2)}</td>
+                                                            <td class="px-4 py-4 text-center">
+                                                                <div class="flex items-center justify-center gap-1 bg-white border border-slate-200 rounded-xl p-1 w-fit mx-auto shadow-sm">
+                                                                    <button class="h-7 w-7 flex items-center justify-center rounded-lg hover:bg-slate-100 text-slate-400 hover:text-indigo-600 transition-all decrease-qty" data-index="${index}"><i class="fas fa-minus text-[8px]"></i></button>
+                                                                    <input type="number" class="w-10 text-center text-xs font-bold text-slate-800 border-none focus:ring-0 p-0 qty-input" data-index="${index}" value="${item.quantity}" min="1">
+                                                                    <button class="h-7 w-7 flex items-center justify-center rounded-lg hover:bg-slate-100 text-slate-400 hover:text-indigo-600 transition-all increase-qty" data-index="${index}"><i class="fas fa-plus text-[8px]"></i></button>
+                                                                </div>
+                                                            </td>
+                                                            <td class="px-4 py-4 text-xs font-black text-indigo-600">${CURRENCY}${lineTotal.toFixed(2)}</td>
+                                                            <td class="px-6 py-4 text-right">
+                                                                <button class="h-9 w-9 flex items-center justify-center rounded-lg text-rose-500 hover:bg-rose-50 transition-all remove-item" data-index="${index}">
+                                                                    <i class="fas fa-trash-can text-xs"></i>
+                                                                </button>
+                                                            </td>
+                                                        </tr>
+                                                    `);
                 });
                 updateTotals(subtotal); $('#finalize-btn').attr('disabled', false);
             }
@@ -657,6 +660,18 @@
                 $('#summary-tax').text(CURRENCY + tax.toFixed(2));
                 $('#summary-total').text(CURRENCY + grand.toFixed(2));
             }
+
+            $(document).on('change', '.qty-input', function () {
+                let i = $(this).data('index');
+                let newQty = parseInt($(this).val()) || 1;
+                if (newQty < 1) newQty = 1;
+                if (newQty > cart[i].stock) {
+                    Swal.fire({ icon: 'warning', text: 'Stock limit reached.', toast: true, position: 'top-end', timer: 2000, showConfirmButton: false });
+                    newQty = cart[i].stock;
+                }
+                cart[i].quantity = newQty;
+                renderCart();
+            });
 
             $(document).on('click', '.increase-qty', function () {
                 let i = $(this).data('index');
@@ -673,11 +688,11 @@
 
             $(document).on('click', '.remove-item', function () {
                 let idx = $(this).data('index');
-                Swal.fire({ title: 'Remove Item?', text: "Detach this resource?", icon: 'question', showCancelButton: true, confirmButtonColor: '#4f46e5', cancelButtonColor: '#f43f5e', confirmButtonText: 'Yes', background: '#f8fafc' }).then((r) => { if (r.isConfirmed) { cart.splice(idx, 1); renderCart(); } });
+                Swal.fire({ title: 'Remove Item?', text: "Are you sure you want to remove this item from your cart?", icon: 'question', showCancelButton: true, confirmButtonColor: '#4f46e5', cancelButtonColor: '#f43f5e', confirmButtonText: 'Yes, Remove', background: '#f8fafc' }).then((r) => { if (r.isConfirmed) { cart.splice(idx, 1); renderCart(); } });
             });
 
             $('#clear-cart-btn').on('click', function () {
-                Swal.fire({ title: 'Wipe Session?', text: "Reset all nodes?", icon: 'warning', showCancelButton: true, confirmButtonColor: '#f43f5e', confirmButtonText: 'Purge', background: '#f8fafc' }).then((r) => { if (r.isConfirmed) { cart = []; renderCart(); } });
+                Swal.fire({ title: 'Empty Cart?', text: "Are you sure you want to remove all items from your cart?", icon: 'warning', showCancelButton: true, confirmButtonColor: '#f43f5e', confirmButtonText: 'Empty Cart', background: '#f8fafc' }).then((r) => { if (r.isConfirmed) { cart = []; renderCart(); } });
             });
 
             /* ──────────────── SETTLEMENT ──────────────── */
@@ -702,8 +717,8 @@
             $('#paid_amount_input').on('input', function () {
                 let total = parseFloat($('#modal-total-display').text().replace(CURRENCY, '').replace(/,/g, '')) || 0;
                 let paid = parseFloat($(this).val()) || 0; let diff = paid - total;
-                if (diff >= 0) { $('#due-amount-display').text(CURRENCY + diff.toFixed(2)).removeClass('text-rose-400').addClass('text-emerald-400'); $('#due-amount-header').text('Refund Change').removeClass('text-rose-400'); }
-                else { $('#due-amount-display').text(CURRENCY + Math.abs(diff).toFixed(2)).removeClass('text-emerald-400').addClass('text-rose-400'); $('#due-amount-header').text('Owed Ledger').addClass('text-rose-400'); }
+                if (diff >= 0) { $('#due-amount-display').text(CURRENCY + diff.toFixed(2)).removeClass('text-rose-400').addClass('text-emerald-400'); $('#due-amount-header').text('Change Due').removeClass('text-rose-400'); }
+                else { $('#due-amount-display').text(CURRENCY + Math.abs(diff).toFixed(2)).removeClass('text-emerald-400').addClass('text-rose-400'); $('#due-amount-header').text('Amount Owed').addClass('text-rose-400'); }
             });
 
             $('#confirm-sale-btn').on('click', function () {
@@ -713,20 +728,20 @@
                 let paid = parseFloat($('#paid_amount_input').val()) || 0;
                 let payload = { customer_data: { id: $('#customer-id').val(), name: $('#customer-name').val(), phone: $('#customer-phone').val(), email: $('#customer-email').val(), address: $('#customer-address').val() }, total_amount: subtotal, tax_amount: tax, grand_total: grand, paid_amount: paid, due_amount: Math.max(0, grand - paid), payment_method: $('input[name="payment_method"]:checked').val(), items: cart.map(i => ({ product_id: i.id, quantity: i.quantity, unit_price: i.price, subtotal: i.price * i.quantity })) };
 
-                $btn.prop('disabled', true).html('<i class="fas fa-circle-notch fa-spin mr-3"></i> Syncing Node...');
+                $btn.prop('disabled', true).html('<i class="fas fa-circle-notch fa-spin mr-3"></i> Processing Order...');
                 $.ajax({
                     url: '{{ route('pos.store') }}', method: 'POST', contentType: 'application/json', data: JSON.stringify(payload),
                     success: function (res) {
                         if (res.success) {
-                            Swal.fire({ icon: 'success', title: 'Sale Executed', text: 'Committal successful.', showConfirmButton: false, timer: 1200, background: '#f8fafc' });
+                            Swal.fire({ icon: 'success', title: 'Order Completed', text: 'Your order has been placed successfully.', showConfirmButton: false, timer: 1200, background: '#f8fafc' });
                             setTimeout(() => window.location.href = '{{ url('/invoice') }}/' + res.sale_id, 1200);
                         } else {
-                            Swal.fire({ icon: 'error', title: 'Sync Error', text: res.message, background: '#f8fafc' }); $btn.prop('disabled', false).text('Execute Committal');
+                            Swal.fire({ icon: 'error', title: 'Order Error', text: res.message, background: '#f8fafc' }); $btn.prop('disabled', false).text('Place Order');
                         }
                     },
                     error: function (xhr) {
-                        let msg = 'System failure during committal.'; try { msg = JSON.parse(xhr.responseText).message || msg; } catch (e) { }
-                        Swal.fire({ icon: 'error', title: 'Fatal Node Error', text: msg, background: '#f8fafc' }); $btn.prop('disabled', false).text('Execute Committal');
+                        let msg = 'System failure during order processing.'; try { msg = JSON.parse(xhr.responseText).message || msg; } catch (e) { }
+                        Swal.fire({ icon: 'error', title: 'Order Failed', text: msg, background: '#f8fafc' }); $btn.prop('disabled', false).text('Place Order');
                     }
                 });
             });

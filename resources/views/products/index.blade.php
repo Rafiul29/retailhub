@@ -19,7 +19,7 @@
                 <div class="relative z-10">
                     <p class="text-[10px] font-bold uppercase tracking-[0.2em] opacity-60 mb-1">Inventory Value</p>
                     <h3 class="text-2xl font-extrabold text-white">
-                        {{ $settings['currency_symbol'] ?? '$' }}{{ number_format($products->sum(fn($p) => $p->purchase_price * $p->stock_quantity), 2) }}
+                        {{ $settings['currency_symbol'] ?? '$' }}{{ number_format($products->sum(fn($p) => $p->purchase_price * $p->stock_quantity), 0) }}
                     </h3>
                 </div>
                 <i class="fas fa-coins absolute bottom-[-10px] right-[-10px] text-6xl opacity-10 rotate-12"></i>
@@ -43,9 +43,9 @@
                         <i class="fas fa-file-export"></i> Export
                     </a>
                     <!-- <button onclick="document.getElementById('import-file').click()"
-                                                            class="flex-1 bg-amber-50 text-amber-600 px-4 py-3 rounded-2xl font-bold text-[10px] uppercase tracking-widest text-center hover:bg-amber-100 transition-all flex items-center justify-center gap-2">
-                                                            <i class="fas fa-file-import"></i> Import
-                                                        </button> -->
+                                                                    class="flex-1 bg-amber-50 text-amber-600 px-4 py-3 rounded-2xl font-bold text-[10px] uppercase tracking-widest text-center hover:bg-amber-100 transition-all flex items-center justify-center gap-2">
+                                                                    <i class="fas fa-file-import"></i> Import
+                                                                </button> -->
                 </div>
                 <form id="import-form" action="{{ route('products.import') }}" method="POST" enctype="multipart/form-data"
                     class="hidden">
@@ -58,8 +58,8 @@
                         class="flex-1 bg-blue-50 text-blue-600 px-4 py-3 rounded-2xl font-bold text-[10px] uppercase tracking-widest text-center hover:bg-blue-100 transition-all">Stock
                         Export</a>
                     <!-- <button onclick="document.getElementById('stock-import-file').click()"
-                                                        class="flex-1 bg-slate-50 text-slate-500 px-4 py-3 rounded-2xl font-bold text-[10px] uppercase tracking-widest text-center hover:bg-slate-100 transition-all">Stock
-                                                        Sync</button> -->
+                                                                class="flex-1 bg-slate-50 text-slate-500 px-4 py-3 rounded-2xl font-bold text-[10px] uppercase tracking-widest text-center hover:bg-slate-100 transition-all">Stock
+                                                                Sync</button> -->
                 </div>
                 <form id="stock-import-form" action="{{ route('stock.import') }}" method="POST"
                     enctype="multipart/form-data" class="hidden">
@@ -295,8 +295,8 @@
                                 <span class="text-xs font-bold text-slate-600">Click to upload image</span>
                             </div>
                             <img id="add-image-preview" src="" class="absolute inset-0 w-full h-full object-cover hidden">
-                            <input type="file" name="image" id="add-image-input" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
-                                accept="image/*">
+                            <input type="file" name="image" id="add-image-input"
+                                class="absolute inset-0 w-full h-full opacity-0 cursor-pointer" accept="image/*">
                         </div>
                     </div>
 
@@ -398,8 +398,8 @@
                                 <span class="text-xs font-bold text-slate-600">Upload new image to replace</span>
                             </div>
                             <img id="edit-image-preview" src="" class="absolute inset-0 w-full h-full object-cover hidden">
-                            <input type="file" name="image" id="edit-image-input" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
-                                accept="image/*">
+                            <input type="file" name="image" id="edit-image-input"
+                                class="absolute inset-0 w-full h-full opacity-0 cursor-pointer" accept="image/*">
                         </div>
                     </div>
 
@@ -550,13 +550,13 @@
                 const input = document.getElementById(inputId);
                 const preview = document.getElementById(previewId);
                 const placeholder = document.getElementById(placeholderId);
-                
+
                 if (input) {
-                    input.addEventListener('change', function() {
+                    input.addEventListener('change', function () {
                         const file = this.files[0];
                         if (file) {
                             const reader = new FileReader();
-                            reader.onload = function(e) {
+                            reader.onload = function (e) {
                                 preview.src = e.target.result;
                                 preview.classList.remove('hidden');
                                 placeholder.classList.add('hidden');
@@ -589,7 +589,7 @@
                 // Handle edit image preview
                 const editPreview = document.getElementById('edit-image-preview');
                 const editPlaceholder = document.getElementById('edit-image-placeholder');
-                
+
                 if (product.image) {
                     editPreview.src = '/storage/' + product.image;
                     editPreview.classList.remove('hidden');

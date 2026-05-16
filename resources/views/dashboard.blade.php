@@ -43,7 +43,7 @@
                     <div class="text-right">
                         <p class="text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">Today's Revenue</p>
                         <h3 class="text-2xl font-black text-slate-900">
-                            {{ $settings['currency_symbol'] ?? '$' }}{{ number_format($stats['revenue_today'], 2) }}</h3>
+                            {{ $settings['currency_symbol'] ?? '$' }}{{ number_format($stats['revenue_today'], 0) }}</h3>
                     </div>
                 </div>
                 <div class="flex items-center gap-2 pt-2 border-t border-slate-50">
@@ -69,7 +69,7 @@
                 </div>
                 <div class="flex items-center gap-2 pt-2 border-t border-slate-50">
                     <span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Avg:
-                        {{ $settings['currency_symbol'] ?? '$' }}{{ number_format($stats['total_sales_avg'], 2) }}</span>
+                        {{ $settings['currency_symbol'] ?? '$' }}{{ number_format($stats['total_sales_avg'], 0) }}</span>
                 </div>
             </div>
 
@@ -105,7 +105,7 @@
                     <div class="text-right">
                         <p class="text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">Stock Value</p>
                         <h3 class="text-2xl font-black text-slate-900">
-                            {{ $settings['currency_symbol'] ?? '$' }}{{ number_format($stats['stock_value'], 2) }}</h3>
+                            {{ $settings['currency_symbol'] ?? '$' }}{{ number_format($stats['stock_value'], 0) }}</h3>
                     </div>
                 </div>
                 <div class="flex items-center gap-2 pt-2 border-t border-slate-50">

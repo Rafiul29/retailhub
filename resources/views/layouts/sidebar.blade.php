@@ -81,15 +81,38 @@
                 <span
                     class="sidebar-category-label sidebar-text px-4 text-[10px] font-black uppercase tracking-[0.25em] text-white/30 block mb-3">Repository</span>
                 <ul class="space-y-2">
-                    <li>
-                        <a href="{{ route('products.index') }}"
-                            class="group flex items-center gap-4 rounded-2xl px-4 py-2 text-sm font-bold transition-all {{ request()->routeIs('products.*') ? 'bg-white/10 text-white shadow-xl ring-1 ring-white/20' : 'hover:bg-white/5 hover:text-white' }}">
-                            <div class="w-5 h-5 flex items-center justify-center shrink-0">
-                                <i
-                                    class="sidebar-icon fas fa-box {{ request()->routeIs('products.*') ? 'opacity-100' : 'opacity-40 group-hover:opacity-100' }} transition-opacity"></i>
+                    <li class="nav-item">
+                        <button type="button"
+                            class="sidebar-dropdown-toggle group w-full flex items-center justify-between rounded-2xl px-4 py-2 text-sm font-bold transition-all {{ request()->routeIs('products.*') ? 'bg-white/10 text-white shadow-xl ring-1 ring-white/20' : 'hover:bg-white/5 hover:text-white' }}">
+                            <div class="flex items-center gap-4">
+                                <div class="w-5 h-5 flex items-center justify-center shrink-0">
+                                    <i
+                                        class="sidebar-icon fas fa-box {{ request()->routeIs('products.*') ? 'opacity-100' : 'opacity-40 group-hover:opacity-100' }} transition-opacity"></i>
+                                </div>
+                                <span class="sidebar-text">Products</span>
                             </div>
-                            <span class="sidebar-text">Master Products</span>
-                        </a>
+                            <i
+                                class="fas fa-chevron-down text-[10px] sidebar-text opacity-40 transition-transform dropdown-arrow {{ request()->routeIs('products.*') ? 'rotate-180' : '' }}"></i>
+                        </button>
+                        <ul
+                            class="sidebar-dropdown-menu mt-2 space-y-1 overflow-hidden transition-all duration-300 {{ request()->routeIs('products.*') ? 'block' : 'hidden' }}">
+                            <li>
+                                <a href="{{ route('products.index') }}"
+                                    class="flex items-center gap-3 rounded-xl px-4 py-2 text-xs font-semibold pl-13 transition-all {{ request()->routeIs('products.index') ? 'text-white bg-white/5' : 'text-slate-400 hover:text-white hover:bg-white/5' }}">
+                                    <i
+                                        class="fas fa-circle text-[6px] {{ request()->routeIs('products.index') ? 'text-indigo-400' : 'text-slate-600' }}"></i>
+                                    List Products
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ route('products.barcodes.print') }}" target="_blank"
+                                    class="flex items-center gap-3 rounded-xl px-4 py-2 text-xs font-semibold pl-13 transition-all {{ request()->routeIs('products.barcodes.print') ? 'text-white bg-white/5' : 'text-slate-400 hover:text-white hover:bg-white/5' }}">
+                                    <i
+                                        class="fas fa-circle text-[6px] {{ request()->routeIs('products.barcodes.print') ? 'text-indigo-400' : 'text-slate-600' }}"></i>
+                                    Barcode Generator
+                                </a>
+                            </li>
+                        </ul>
                     </li>
                     <li>
                         <a href="{{ route('customers.index') }}"
@@ -265,3 +288,29 @@
         visibility: hidden;
     }
 </style>
+
+@push('js')
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const dropdownToggles = document.querySelectorAll('.sidebar-dropdown-toggle');
+
+            dropdownToggles.forEach(toggle => {
+                toggle.addEventListener('click', function () {
+                    const menu = this.nextElementSibling;
+                    const arrow = this.querySelector('.dropdown-arrow');
+
+                    // Toggle current dropdown
+                    if (menu.classList.contains('hidden')) {
+                        menu.classList.remove('hidden');
+                        menu.classList.add('block');
+                        arrow.classList.add('rotate-180');
+                    } else {
+                        menu.classList.remove('block');
+                        menu.classList.add('hidden');
+                        arrow.classList.remove('rotate-180');
+                    }
+                });
+            });
+        });
+    </script>
+@endpush
