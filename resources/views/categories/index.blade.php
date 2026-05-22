@@ -251,6 +251,9 @@
                                 <input type="file" name="image" id="category-image-input"
                                     class="absolute inset-0 opacity-0 cursor-pointer" accept="image/*" />
                             </div>
+                            @error('image')
+                                <p class="text-xs text-rose-500 font-bold mt-1">{{ $message }}</p>
+                            @enderror
                         </div>
 
                         <div class="space-y-2">
@@ -259,6 +262,9 @@
                                 Name</label>
                             <input type="text" name="name" id="category-name-input" placeholder="e.g. Beverages" required
                                 class="w-full border-0 bg-slate-50 py-4 px-5 text-sm font-semibold rounded-2xl focus:ring-4 focus:ring-indigo-600/10 focus:bg-white focus:shadow-sm transition-all" />
+                            @error('name')
+                                <p class="text-xs text-rose-500 font-bold mt-1">{{ $message }}</p>
+                            @enderror
                         </div>
 
                         <div class="space-y-2">
@@ -271,6 +277,9 @@
                                     <option value="{{ $parent->id }}">{{ $parent->name }}</option>
                                 @endforeach
                             </select>
+                            @error('parent_id')
+                                <p class="text-xs text-rose-500 font-bold mt-1">{{ $message }}</p>
+                            @enderror
                         </div>
 
                         <div class="space-y-2 md:col-span-2">
@@ -279,6 +288,9 @@
                             <textarea id="category-description-input" name="description" rows="3"
                                 class="w-full border-0 bg-slate-50 py-4 px-5 text-sm font-semibold rounded-2xl focus:ring-4 focus:ring-indigo-600/10 focus:bg-white focus:shadow-sm transition-all placeholder:text-slate-300"
                                 placeholder="Optional category details..."></textarea>
+                            @error('description')
+                                <p class="text-xs text-rose-500 font-bold mt-1">{{ $message }}</p>
+                            @enderror
                         </div>
 
                         <div class="md:col-span-2 flex items-center gap-4 bg-slate-50 p-5 rounded-2xl border border-slate-100 cursor-pointer"
@@ -313,6 +325,34 @@
     <script>
         const modal = document.getElementById('category-modal');
         const form = document.getElementById('category-form');
+
+        // Reopen category modal on validation error
+        @if($errors->any())
+            document.addEventListener('DOMContentLoaded', function () {
+                const action = '{{ session('category_modal_action') }}';
+                const id = '{{ session('category_id') }}';
+                if (action === 'edit' && id) {
+                    const editButton = document.querySelector(`.edit-category[data-id="${id}"]`);
+                    if (editButton) {
+                        editButton.click();
+                        // Overwrite with old inputs so user inputs are not lost
+                        document.getElementById('category-name-input').value = '{{ old('name') }}';
+                        document.getElementById('category-parent-input').value = '{{ old('parent_id') }}';
+                        document.getElementById('category-description-input').value = '{{ old('description') }}';
+                        document.getElementById('category-status-input').checked = {{ old('status') ? 'true' : 'false' }};
+                    } else {
+                        openModal();
+                    }
+                } else {
+                    openModal();
+                    document.getElementById('category-name-input').value = '{{ old('name') }}';
+                    document.getElementById('category-parent-input').value = '{{ old('parent_id') }}';
+                    document.getElementById('category-description-input').value = '{{ old('description') }}';
+                    document.getElementById('category-status-input').checked = {{ old('status') ? 'true' : 'false' }};
+                }
+            });
+        @endif
+
         const formTitle = document.getElementById('category-form-title');
         const methodInput = document.getElementById('category-form-method');
         const nameInput = document.getElementById('category-name-input');

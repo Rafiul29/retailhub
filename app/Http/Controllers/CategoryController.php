@@ -24,7 +24,9 @@ class CategoryController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
+        session()->flash('category_modal_action', 'create');
+
+        $data = $request->validate([
             'name' => 'required|string|max:255|unique:categories',
             'parent_id' => 'nullable|exists:categories,id',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
@@ -32,9 +34,10 @@ class CategoryController extends Controller
             'status' => 'nullable|boolean'
         ]);
 
-        $data = $request->all();
         $data['slug'] = str($request->name)->slug();
         $data['status'] = $request->has('status');
+
+        unset($data['image']);
 
         if ($request->hasFile('image')) {
             $data['image'] = $request->file('image')->store('categories', 'public');
@@ -47,7 +50,10 @@ class CategoryController extends Controller
 
     public function update(Request $request, Category $category)
     {
-        $request->validate([
+        session()->flash('category_modal_action', 'edit');
+        session()->flash('category_id', $category->id);
+
+        $data = $request->validate([
             'name' => 'required|string|max:255|unique:categories,name,' . $category->id,
             'parent_id' => 'nullable|exists:categories,id',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
@@ -55,9 +61,10 @@ class CategoryController extends Controller
             'status' => 'nullable|boolean'
         ]);
 
-        $data = $request->all();
         $data['slug'] = str($request->name)->slug();
         $data['status'] = $request->has('status');
+
+        unset($data['image']);
 
         if ($request->hasFile('image')) {
             // Delete old image if exists
