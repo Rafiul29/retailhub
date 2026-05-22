@@ -46,6 +46,8 @@ class ProductController extends Controller
 
     public function store(Request $request)
     {
+        session()->flash('modal', 'add');
+
         $request->validate([
             'name'           => 'required|string|max:255',
             'barcode'        => 'required|string|unique:products',
@@ -59,7 +61,8 @@ class ProductController extends Controller
             'image'          => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
-        $data = $request->all();
+        $data = $request->validated();
+        unset($data['image']); // handle image separately
 
         if ($request->hasFile('image')) {
             $data['image'] = $request->file('image')->store('products', 'public');
@@ -76,6 +79,8 @@ class ProductController extends Controller
 
     public function update(Request $request, Product $product)
     {
+        session()->flash('modal', 'edit');
+
         $request->validate([
             'name'           => 'required|string|max:255',
             'barcode'        => 'required|string|unique:products,barcode,' . $product->id,
@@ -89,8 +94,11 @@ class ProductController extends Controller
             'image'          => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
+        
+
         $oldValues = $product->only(['name', 'purchase_price', 'selling_price', 'stock_quantity', 'reorder_level']);
-        $data = $request->all();
+        $data = $request->validated();
+        unset($data['image']); // don't overwrite existing image unless a new one is uploaded
 
         if ($request->hasFile('image')) {
             if ($product->image && \Storage::disk('public')->exists($product->image)) {

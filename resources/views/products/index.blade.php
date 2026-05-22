@@ -3,6 +3,20 @@
 @section('header', 'Product Catalog')
 
 @section('content')
+    {{-- Flash Messages --}}
+    @if(session('success'))
+        <div id="flash-success" class="fixed top-6 right-6 z-[200] bg-emerald-500 text-white px-6 py-4 rounded-2xl shadow-xl flex items-center gap-3 text-sm font-bold animate-fade-in">
+            <i class="fas fa-check-circle"></i> {{ session('success') }}
+            <button onclick="this.parentElement.remove()" class="ml-2 opacity-70 hover:opacity-100"><i class="fas fa-times"></i></button>
+        </div>
+    @endif
+    @if(session('error'))
+        <div id="flash-error" class="fixed top-6 right-6 z-[200] bg-rose-500 text-white px-6 py-4 rounded-2xl shadow-xl flex items-center gap-3 text-sm font-bold">
+            <i class="fas fa-exclamation-circle"></i> {{ session('error') }}
+            <button onclick="this.parentElement.remove()" class="ml-2 opacity-70 hover:opacity-100"><i class="fas fa-times"></i></button>
+        </div>
+    @endif
+
     <div class="flex flex-col gap-8">
         <!-- Header with Stats -->
         <div class="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-5 gap-6">
@@ -474,6 +488,30 @@
 
     @push('js')
         <script>
+            // ── Auto-reopen modal on validation error ──────────────────────────────────
+            @if($errors->any())
+                document.addEventListener('DOMContentLoaded', function () {
+                    const errorModal = '{{ session('modal') }}';
+                    if (errorModal === 'edit') {
+                        document.getElementById('edit-product-modal').classList.remove('hidden');
+                    } else {
+                        // Default: reopen Add modal
+                        document.getElementById('add-product-modal').classList.remove('hidden');
+                    }
+                    // Auto-dismiss flash after 5s
+                    setTimeout(() => {
+                        const f = document.getElementById('flash-success') || document.getElementById('flash-error');
+                        if (f) f.remove();
+                    }, 5000);
+                });
+            @endif
+
+            // Auto-dismiss success flash
+            setTimeout(() => {
+                const f = document.getElementById('flash-success');
+                if (f) f.remove();
+            }, 4000);
+
             // Realtime search with debounce
             let searchTimeout;
             const filterForm = document.getElementById('filter-form');

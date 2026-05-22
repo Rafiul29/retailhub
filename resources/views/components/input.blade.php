@@ -12,7 +12,7 @@
             id="{{ $attributes->get('id', $name) }}" 
             {{ $disabled ? 'disabled' : '' }} 
             {{ $attributes->merge(['class' => 'w-full border-0 bg-slate-100/50 py-4 px-5 text-sm font-semibold rounded-2xl focus:ring-4 focus:ring-indigo-600/10 transition-all placeholder:text-slate-300 disabled:opacity-50']) }}
-            value="{{ $value }}"
+            value="{{ old($name, $value) }}"
             placeholder="{{ $placeholder }}"
         >
     </div>
